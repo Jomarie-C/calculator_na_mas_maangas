@@ -3,7 +3,7 @@ class Calculator:
         self.first_operand = "0"
         self.second_operand = None
         self.operator = None
-        self.operation_symbols = ["÷", "×", "-", "+", "="]
+        self.operation_symbols = ["÷", "×", "-", "+", "=", "√"]
         self.control_symbols = ["AC", "+/-", "%"]
 
     def reset(self):
@@ -23,6 +23,8 @@ class Calculator:
             elif self.operator == "×":
                 return operand1 * operand2
             elif self.operator == "÷":
+                if operand2 == 0:
+                    return "Error"
                 return operand1 / operand2
         finally:
             self.reset()
