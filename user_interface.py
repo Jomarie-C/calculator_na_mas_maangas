@@ -14,7 +14,7 @@ class CalculatorUI:
             ["1", "2", "3", "+"],
             ["0", ".", "√", "="]
         ]
-        self.operation_buttons = ["÷", "×", "-", "+", "="]
+        self.operation_buttons = ["÷", "×", "-", "+", "=", "√"]
         self.control_buttons = ["AC", "+/-", "%"]
         self.total_rows = len(self.button_layout)
         self.total_columns = len(self.button_layout[0])
