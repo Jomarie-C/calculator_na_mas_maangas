@@ -1,30 +1,33 @@
 class Calculator:
     def __init__(self):
-        self.first_operand = "0"
-        self.second_operand = None
-        self.operator = None
+        self.reset()
         self.operation_symbols = ["÷", "×", "-", "+", "=", "√"]
         self.control_symbols = ["AC", "+/-", "%"]
 
     def reset(self):
-        self.first_operand = "0"
-        self.second_operand = None
-        self.operator = None
+        self.expression_string = "0"
+        self.last_input_was_operator = False
 
-    def calculate_result(self):
+    def append_to_expression(self, value):
+        if self.expression_string == "0" and value.isdigit():
+            self.expression_string = value
+        else:
+            self.expression_string += value
+        self.last_input_was_operator = value in self.operation_symbols
+
+    def get_expression(self):
+        return self.expression_string
+
+    def evaluate_expression(self):
         try:
-            operand1 = float(self.first_operand)
-            operand2 = float(self.second_operand)
-
-            if self.operator == "+":
-                return operand1 + operand2
-            elif self.operator == "-":
-                return operand1 - operand2
-            elif self.operator == "×":
-                return operand1 * operand2
-            elif self.operator == "÷":
-                if operand2 == 0:
-                    return "Error"
-                return operand1 / operand2
-        finally:
+            safe_expression = (
+                self.expression_string
+                .replace("×", "*")
+                .replace("÷", "/")
+            )
+            result = eval(safe_expression)
             self.reset()
+            return result
+        except Exception:
+            self.reset()
+            return "Error"
