@@ -9,12 +9,15 @@ class Calculator:
         self.last_input_was_operator = False
 
     def append_to_expression(self, value):
-        if len(self.expression_string.replace(" ", "")) >= 8:
-            return  # Prevent overflow
+        current_length = len(self.expression_string.replace(" ", ""))
+        if current_length >= 8:
+            return
+
         if self.expression_string == "0" and value.isdigit():
             self.expression_string = value
         else:
             self.expression_string += value
+
         self.last_input_was_operator = value in self.operation_symbols
 
     def get_expression(self):
