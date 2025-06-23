@@ -9,6 +9,8 @@ class Calculator:
         self.last_input_was_operator = False
 
     def append_to_expression(self, value):
+        if len(self.expression_string.replace(" ", "")) >= 8:
+            return  # Prevent overflow
         if self.expression_string == "0" and value.isdigit():
             self.expression_string = value
         else:
