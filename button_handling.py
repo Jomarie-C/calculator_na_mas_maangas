@@ -10,22 +10,21 @@ class ButtonClickHandler:
     def handle_click(self, button_value):
         if button_value in self.calculator.operation_symbols:
             if button_value == "=":
-                self.calculator.second_operand = self.display_label["text"]
-                result = self.calculator.calculate_result()
-                if isinstance(result, str):
-                    self.display_label["text"] = result
-                else:
-                    self.display_label["text"] = Format.format_number(result)
+                result = self.calculator.evaluate_expression()
+                self.display_label["text"] = Format.format_number(result) if result != "Error" else result
             elif button_value == "√":
                 try:
-                    square_root = math.sqrt(float(self.display_label["text"]))
+                    value = float(self.display_label["text"])
+                    square_root = math.sqrt(value)
                     self.display_label["text"] = Format.format_number(square_root)
+                    self.calculator.expression_string = self.display_label["text"]
                 except ValueError:
                     self.display_label["text"] = "Error"
+                    self.calculator.reset()
             else:
-                self.calculator.first_operand = self.display_label["text"]
-                self.calculator.operator = button_value
-                self.display_label["text"] = "0"
+                if not self.calculator.last_input_was_operator:
+                    self.calculator.append_to_expression(button_value)
+                    self.display_label["text"] = self.calculator.get_expression()
 
         elif button_value in self.calculator.control_symbols:
             if button_value == "AC":
@@ -35,21 +34,24 @@ class ButtonClickHandler:
                 try:
                     inverted = float(self.display_label["text"]) * -1
                     self.display_label["text"] = Format.format_number(inverted)
+                    self.calculator.expression_string = self.display_label["text"]
                 except ValueError:
                     self.display_label["text"] = "Error"
+                    self.calculator.reset()
             elif button_value == "%":
                 try:
                     percentage = float(self.display_label["text"]) / 100
                     self.display_label["text"] = Format.format_number(percentage)
+                    self.calculator.expression_string = self.display_label["text"]
                 except ValueError:
                     self.display_label["text"] = "Error"
+                    self.calculator.reset()
 
         elif button_value == ".":
-            if "." not in self.display_label["text"]:
-                self.display_label["text"] += "."
+            if "." not in self.display_label["text"].split()[-1]:
+                self.calculator.append_to_expression(".")
+                self.display_label["text"] = self.calculator.get_expression()
 
         elif button_value.isdigit():
-            if self.display_label["text"] == "0":
-                self.display_label["text"] = button_value
-            else:
-                self.display_label["text"] += button_value
+            self.calculator.append_to_expression(button_value)
+            self.display_label["text"] = self.calculator.get_expression()
