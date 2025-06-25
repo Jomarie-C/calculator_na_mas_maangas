@@ -7,14 +7,19 @@ class Calculator:
     def reset(self):
         self.expression_string = "0"
         self.last_input_was_operator = False
+        self.operand_count = 0
 
     def append_to_expression(self, value):
-        current_length = len(self.expression_string.replace(" ", ""))
-        if current_length >= 8:
-            return
-
-        if self.expression_string == "0" and value.isdigit():
-            self.expression_string = value
+        if value.isdigit():
+            if self.expression_string == "0":
+                self.expression_string = value
+                self.operand_count = 1
+            else:
+                if self.last_input_was_operator:
+                    if self.operand_count >= 8:
+                        return
+                    self.operand_count += 1
+                self.expression_string += value
         else:
             self.expression_string += value
 
