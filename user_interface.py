@@ -8,8 +8,8 @@ class CalculatorUI:
         self.root_window.resizable(False, False)
 
         self.button_layout = [
-            ["AC", "+/-", "%", "÷"], 
-            ["7", "8", "9", "×"], 
+            ["AC", "+/-", "%", "÷"],
+            ["7", "8", "9", "×"],
             ["4", "5", "6", "-"],
             ["1", "2", "3", "+"],
             ["0", ".", "√", "="]
