@@ -6,7 +6,7 @@ class ButtonClickHandler:
     def __init__(self, display_label):
         self.display_label = display_label
         self.calculator = Calculator()
-    
+
     def handle_click(self, button_value):
         if button_value in self.calculator.operation_symbols:
             if button_value == "=":
